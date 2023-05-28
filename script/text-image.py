@@ -1,10 +1,25 @@
 from PIL import Image
+import numpy as np
+
+environment = "/home/coloranto/Desktop/progettoST/image/"
 
 # Function to get the image for a given letter
-def get_letter_image(letter):
+def get_letter_image(letter, background_color=(255, 255, 255)):
     letter = letter.lower()
-    filename = f"{letter}.png"
-    return Image.open(filename)
+    filename = environment + letter + ".png"
+    image = Image.open(filename).convert("RGBA")
+
+    # Get the image data as a numpy array
+    np_image = np.array(image)
+
+    # Set pixels with the background color to transparent
+    is_background = np.all(np_image[:, :, :3] == background_color, axis=2)
+    np_image[is_background] = [0, 0, 0, 0]
+
+    # Convert the modified image array back to PIL Image
+    modified_image = Image.fromarray(np_image)
+
+    return modified_image
 
 # Function to concatenate images of a word into a single column with spacing
 def concatenate_word_images(word, spacing=10):
@@ -20,12 +35,12 @@ def concatenate_word_images(word, spacing=10):
 
     # Create a new image with a height that can accommodate all letter images
     total_height = sum(image.height for image in letter_images) + (len(letter_images) - 1) * spacing
-    word_image = Image.new("RGB", (max_height, total_height))
+    word_image = Image.new("RGBA", (max_height, total_height))
 
     # Paste each letter image vertically into the word image with spacing
     y_offset = 0
     for image in letter_images:
-        word_image.paste(image, (0, y_offset))
+        word_image.paste(image, (0, y_offset), image)
         y_offset += image.height + spacing
 
     return word_image
@@ -44,18 +59,20 @@ def concatenate_sentence_images(sentence, spacing=20):
 
     # Create a new image with a width that can accommodate all word images
     total_width = sum(image.width for image in word_images) + (len(word_images) - 1) * spacing
-    sentence_image = Image.new("RGB", (total_width, max_height))
+    sentence_image = Image.new("RGBA", (total_width, max_height))
 
     # Paste each word image horizontally into the sentence image with spacing
     x_offset = 0
     for image in word_images:
-        sentence_image.paste(image, (x_offset, 0))
+        sentence_image.paste(image, (x_offset, 0), image)
         x_offset += image.width + spacing
 
     return sentence_image
 
 # Example usage
-sentence = "ciao b guarda b"
+sentence = "from the depths scars of my wounded mantra"
 concatenated_image = concatenate_sentence_images(sentence, spacing=30)
 concatenated_image.show()
 
+
+concatenated_image.save("test.png")
