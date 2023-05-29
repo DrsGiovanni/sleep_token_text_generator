@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+/* body {
+  background-image: url("/src/assets/sfondo/download.jpg");
+  background-color: #dac9c9;
+ } */
+
+ /* *{
+  border: 1px solid red
+ } */
+
+
+ body {
+  background-image: url('/src/assets/sfondo/download.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}

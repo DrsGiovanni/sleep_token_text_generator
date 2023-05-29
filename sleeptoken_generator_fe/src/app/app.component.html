@@ -13,7 +13,34 @@
       class="form-control"
       aria-label="Text:"
       aria-describedby="inputGroup-sizing-sm"
+      [formControl]="testo"
     >
   </div>
-
 </div>
+
+<div>
+  <img
+    [src]="imageSrc"
+    *ngIf="imageSrc"
+  >
+</div>
+
+<div>
+  <button (click)="sendText()">Invia</button>
+</div>
+
+
+
+
+<!-- <div id="image-sequence">
+
+  <div
+    id="image"
+    style="background-color: white;"
+    *ngFor="let imagePath of imagePaths"
+  >
+    <img [src]="imagePath" />
+  </div>
+</div>
+
+<button (click)="downloadImage()">Scarica immagine</button> -->
