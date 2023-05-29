@@ -70,9 +70,9 @@ def concatenate_sentence_images(sentence, spacing=20):
     return sentence_image
 
 # Example usage
-sentence = "from the depths scars of my wounded mantra"
+sentence = "luca vuole bene a cittolo"
 concatenated_image = concatenate_sentence_images(sentence, spacing=30)
 concatenated_image.show()
 
 
-concatenated_image.save("test.png")
+concatenated_image.save("test2.png")
